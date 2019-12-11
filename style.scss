@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+//////////colors///////////////
+$lavender-rose: #FDA7DF;
+$lavender-tea: #D980FA;
+$grey: #f5f5f5;
+$white: #ffffff;
+$black: #000;
+
+$background-color: $lavender-rose;
+$primary-color: $lavender-tea;
+
+////////////////fonts////////////////
+$primary-font: 'Roboto', sans-serif;
+
+
+
+
+//////////styles//////////////////
+html, body {
+  margin: 0;
+  padding: 0;
+  background: $lavender-rose;
+  font-family: $primary-font;
+  font-weight: 600;
+  
+  a {
+    text-decoration: none;
+  }
+}
+
+button {
+  border: none;
+}
+
+.app {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  position: absolute;
+  top: 20vh;
+  
+  .wrapper {
+    width: 60%;
+    background: $white;
+    padding: 3%;
+    
+    .quote {
+      font-size: 2vw;
+    }
+    .author {
+      font-size: 3vw;
+      text-align: right;
+      font-weight: 400;
+      
+    }
+    button {
+      font-size: 2vw;
+      margin: 1vw;
+      padding: 0.5vw;
+      cursor: pointer;
+      background: $primary-color;
+    }
+    .tweet-button {
+      color: $white;
+    }
+    .quote-button {
+      background: $white;
+      border: solid 1px $primary-color;
+      color: $primary-color;
+    }
+    
+    button:hover, button:active{
+      box-shadow: 0 10px 40px rgba(0,0,0,0.09), 0 6px 20px 0px rgba(0,0,0,0.19);
+    }
+    
+    button:focus {
+      outline: none;
+    }
+    
+  }
+}
+
+
+
+
+/////////////media queries/////////////////

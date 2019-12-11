@@ -1,0 +1,83 @@
+//only one component needed called QuoteMachine
+//constructor
+////quote
+////author
+////quoteLength  lengths since we need to figure out if the quote can fit in a tweet 
+////authorLength
+//handlequoterequest
+//getnewquote
+//handletweetrequest
+//render
+
+//todo
+//need to figure out how to make the api response faster
+
+class QuoteMachine extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      quote: "Don't trust everything you read on the internet",
+      author: "M. K. Gandhi",
+      quoteLength: 47,
+      authorLength: 12
+    };
+  }
+  handleQuoteRequest = async() => {
+    let newQuote = await this.getNewQuote();
+    
+    let author = newQuote.quoteAuthor;
+    //taking care of unit case where quoteAuthor is "" in the json
+    if(author.trim() === ""){
+      author = "Unknown";
+    }
+    let quote = newQuote.quoteText;
+    let authorLength = author.length;
+    let quoteLength = quote.length;
+    
+    this.setState({quote, author, quoteLength, authorLength});
+    
+  };
+//api used https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en
+//example response from api
+//{"quoteText":"We cannot hold a torch to light another\'s path without brightening our own.", "quoteAuthor":"Ben Sweetland", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/2fd6ebfa44/"}
+  getNewQuote = async() => {
+    //using proxy https://cors-anywhere.herokuapp.com/ for cors
+    return await fetch('https://cors-anywhere.herokuapp.com/https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en', {cache: "no-cache"})
+      .then(response => response.json())
+      .catch(err => console.error(err.toString()));
+  };
+
+  handleTweetRequest = () => {
+    let tweet = '';
+    let author = this.state.author;
+    let quote = this.state.quote;
+    let authorLength = this.state.authorLength;
+    let quoteLength = this.state.quoteLength;
+    //3 extra characters for " - "
+    if ( authorLength + quoteLength + 3 > 140) {
+      //another 3 extra characters for "..." So total 6 extra characters  
+      tweet = quote.substring(0, quoteLength - authorLength - 6) + "... - " + author;
+    } else {
+      tweet = quote + " - " + author;
+    }
+    window.open('https://twitter.com/intent/tweet?&text=' + encodeURIComponent(tweet));
+  };
+    
+  render() {
+    return(
+      <div className="wrapper">
+        <p className="quote">"{this.state.quote}"</p>
+        <p className="author">{this.state.author}</p>
+        <button className="quote-button" onClick={this.handleQuoteRequest}>NEW</button>
+        <button className="tweet-button" onClick={this.handleTweetRequest}>TWEET</button>
+      </div>
+    );
+  }
+}
+  
+ReactDOM.render(
+  <QuoteMachine />,
+  document.getElementById('app')
+);
+
+
